@@ -18,15 +18,15 @@ public class EmployeeBook {
     }
 
     public void addEmployee(Employee employee){
-        if (checkVacantPlace()) {
-           for (int i = 0; i < book.length; i++){
-              if (book[i] == null){
-                  book[i] = employee;
-                  break;
-              }
-           }
-        } else {
+        if (!checkVacantPlace()) {
             System.out.println( "В списке нет места");
+            return;
+        }
+        for (int i = 0; i < book.length; i++){
+            if (book[i] == null){
+                book[i] = employee;
+                break;
+            }
         }
     }
 
@@ -47,31 +47,28 @@ public class EmployeeBook {
     }
 
     public void printBook(){
-        if (!isEmpty()) {
-            for (Employee employee: book) {
-                if (employee != null) {
-                    System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
-                }
-            }
-        } else {
+        if (isEmpty()) {
             System.out.println("Список пуст. Добавьте сотрудника.");
+            return;
         }
-
+        for (Employee employee: book) {
+            if (employee != null) {
+                System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
+            }
+        }
     }
 
     public String employeeMinSalaryByDep(int depNumber) {
         double minSalary = Integer.MAX_VALUE;
         String fullName = "";
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber && minSalary >= employee.getSalary()) {
-                    minSalary = employee.getSalary();
-                    fullName = employee.getFullName();
-                }
+        if (isEmpty()) {
+            return "Список пуст. Добавьте сотрудника";
+        }
+        for (Employee employee : book) {
+            if (employee != null && employee.getDepartment() == depNumber && minSalary >= employee.getSalary()) {
+                minSalary = employee.getSalary();
+                fullName = employee.getFullName();
             }
-
-        } else {
-            System.out.println("Список пуст. Добавьте сотрудника");
         }
         return fullName;
     }
@@ -79,25 +76,27 @@ public class EmployeeBook {
     public String employeeMaxSalaryByDep(int depNumber) {
         double maxSalary = 0;
         String fullName = "";
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber && maxSalary < employee.getSalary()) {
-                    fullName = employee.getFullName();
-                }
-            }
-        } else {
-            System.out.println("Список пуст. Добавьте сотрудника");
+        if (isEmpty()) {
+            return "Список пуст. Добавьте сотрудника";
         }
+        for (Employee employee : book) {
+            if (employee != null && employee.getDepartment() == depNumber && maxSalary < employee.getSalary()) {
+                fullName = employee.getFullName();
+            }
+        }
+
         return fullName;
     }
 
     public double costSalaryByDep(int depNumber) {
         double costSalary = 0;
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber) {
-                    costSalary += employee.getSalary();
-                }
+        if (isEmpty()) {
+            System.out.println("Список пуст.");
+            return costSalary;
+        }
+        for (Employee employee : book) {
+            if (employee != null && employee.getDepartment() == depNumber) {
+                costSalary += employee.getSalary();
             }
         }
         return costSalary;
@@ -106,6 +105,10 @@ public class EmployeeBook {
     public double averageSalaryByDep(int depNumber) {
         int count = 0;
         double averageSalary = 0;
+        if (isEmpty()) {
+            System.out.println("Список пуст.");
+            return averageSalary;
+        }
         for (Employee employee : book) {
                 if (employee != null && employee.getDepartment() == depNumber) {
                     count++;
@@ -113,30 +116,31 @@ public class EmployeeBook {
                 }
             }
 
-        if (averageSalary == 0) {
-            System.out.println("Список пуст.");
-        }
+
         return averageSalary / count;
     }
 
     public void indexSalaryByDep(int depNumber, double index) {
-        double i = index / 100;
 
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber) {
-                    employee.setSalary(employee.getSalary() + employee.getSalary() * i);
-                }
+        double i = index / 100;
+        if (isEmpty()) {
+            return;
+        }
+        for (Employee employee : book) {
+            if (employee != null && employee.getDepartment() == depNumber) {
+                employee.setSalary(employee.getSalary() + employee.getSalary() * i);
             }
         }
+
     }
 
     public void employeeWithLess(double trendSalary) {
 
         if (isEmpty()) {
                 System.out.println("Список пуст.");
-                System.exit(0);
+                return;
         }
+        System.out.println("ngdgyisgvidg");
 
         for (Employee employee : book) {
             if (employee != null && employee.getSalary() <= trendSalary) {
@@ -148,7 +152,7 @@ public class EmployeeBook {
     public void employeeWithMore(double trendSalary) {
         if (isEmpty()) {
             System.out.println("Список пуст.");
-            System.exit(0);
+            return;
         }
         for (Employee employee : book) {
             if (employee != null && employee.getSalary() >= trendSalary) {
@@ -160,17 +164,22 @@ public class EmployeeBook {
     public Employee getById(int id) {
         boolean noEmployee = true;
         Employee em = null;
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getId() == id) {
-                    em =  employee;
-                    noEmployee = false;
-                }
-            }
-            if (noEmployee) {
-                System.out.println("Сотрудника с таким id нет в списке");
+
+        if (isEmpty()) {
+            System.out.println("Список пуст");
+            return em;
+        }
+
+        for (Employee employee : book) {
+            if (employee != null && employee.getId() == id) {
+                em =  employee;
+                noEmployee = false;
             }
         }
+        if (noEmployee) {
+            System.out.println("Сотрудника с таким id нет в списке");
+        }
+
         return em;
     }
 
