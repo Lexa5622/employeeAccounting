@@ -60,21 +60,16 @@ public class EmployeeBook {
     }
 
     public String employeeMinSalaryByDep(int depNumber) {
-        double minSalary = 0.0;
+        double minSalary = Integer.MAX_VALUE;
         String fullName = "";
         if (!isEmpty()) {
             for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber) {
+                if (employee != null && employee.getDepartment() == depNumber && minSalary >= employee.getSalary()) {
                     minSalary = employee.getSalary();
                     fullName = employee.getFullName();
-                    break;
                 }
             }
-            for (Employee employee : book) {
-                if (employee != null && employee.getDepartment() == depNumber && minSalary >= employee.getSalary()) {
-                    fullName = employee.getFullName();
-                }
-            }
+
         } else {
             System.out.println("Список пуст. Добавьте сотрудника");
         }
@@ -111,15 +106,14 @@ public class EmployeeBook {
     public double averageSalaryByDep(int depNumber) {
         int count = 0;
         double averageSalary = 0;
-        if (!isEmpty()) {
-            for (Employee employee : book) {
+        for (Employee employee : book) {
                 if (employee != null && employee.getDepartment() == depNumber) {
                     count++;
                     averageSalary += employee.getSalary();
                 }
             }
 
-        } else {
+        if (averageSalary == 0) {
             System.out.println("Список пуст.");
         }
         return averageSalary / count;
@@ -139,27 +133,27 @@ public class EmployeeBook {
 
     public void employeeWithLess(double trendSalary) {
 
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getSalary() <= trendSalary) {
-                  System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
-                }
-            }
+        if (isEmpty()) {
+                System.out.println("Список пуст.");
+                System.exit(0);
+        }
 
-        } else {
-            System.out.println("Список пуст.");
+        for (Employee employee : book) {
+            if (employee != null && employee.getSalary() <= trendSalary) {
+                System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
+            }
         }
     }
 
     public void employeeWithMore(double trendSalary) {
-        if (!isEmpty()) {
-            for (Employee employee : book) {
-                if (employee != null && employee.getSalary() >= trendSalary) {
-                    System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
-                }
-            }
-        } else {
+        if (isEmpty()) {
             System.out.println("Список пуст.");
+            System.exit(0);
+        }
+        for (Employee employee : book) {
+            if (employee != null && employee.getSalary() >= trendSalary) {
+                System.out.println(employee.getId() + " - " + employee.getFullName() + " - " + employee.getSalary());
+            }
         }
     }
 
@@ -195,13 +189,13 @@ public class EmployeeBook {
         return isEmpty;
     }
     public boolean checkVacantPlace() {
-        boolean b = false;
+
         for (Employee employee : book) {
             if (employee == null) {
-                b = true;
-                break;
+                return true;
             }
         }
-        return b;
+        return false;
     }
+
 }

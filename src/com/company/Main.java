@@ -18,6 +18,7 @@ public class Main {
         System.out.println(employee);
         System.out.println("---------------------");
         EmployeeBook book = new EmployeeBook(10);
+
         book.addEmployee(employee);
         book.addEmployee(employee1);
         book.addEmployee(employee2);
@@ -38,7 +39,7 @@ public class Main {
         System.out.println(book.averageSalaryByDep(1));
         System.out.println("---------------------");
         System.out.println(book.costSalaryByDep(1));
-        System.out.println("VBY---------------------");
+        System.out.println("мин---------------------");
         System.out.println(book.employeeMinSalaryByDep(3));
         System.out.println("---------------------");
         book.indexSalaryByDep(1, 50);
