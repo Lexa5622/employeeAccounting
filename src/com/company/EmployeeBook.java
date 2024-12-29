@@ -54,11 +54,11 @@ public class EmployeeBook {
     }
 
     public String employeeMinSalaryByDep(int depNumber) {
-        double minSalary = Integer.MAX_VALUE;
-        String fullName = "";
         if (isEmpty()) {
             return "Список пуст. Добавьте сотрудника";
         }
+        double minSalary = Integer.MAX_VALUE;
+        String fullName = "";
         for (Employee employee : book) {
             if (employee != null && employee.getDepartment() == depNumber && minSalary >= employee.getSalary()) {
                 minSalary = employee.getSalary();
@@ -69,11 +69,11 @@ public class EmployeeBook {
     }
 
     public String employeeMaxSalaryByDep(int depNumber) {
-        double maxSalary = 0;
-        String fullName = "";
         if (isEmpty()) {
             return "Список пуст. Добавьте сотрудника";
         }
+        double maxSalary = 0;
+        String fullName = "";
         for (Employee employee : book) {
             if (employee != null && employee.getDepartment() == depNumber && maxSalary < employee.getSalary()) {
                 fullName = employee.getFullName();
@@ -83,11 +83,10 @@ public class EmployeeBook {
     }
 
     public double costSalaryByDep(int depNumber) {
-        double costSalary = 0;
         if (isEmpty()) {
             System.out.println("Список пуст.");
-            return costSalary;
         }
+        double costSalary = 0;
         for (Employee employee : book) {
             if (employee != null && employee.getDepartment() == depNumber) {
                 costSalary += employee.getSalary();
@@ -97,12 +96,11 @@ public class EmployeeBook {
     }
 
     public double averageSalaryByDep(int depNumber) {
-        int count = 0;
-        double averageSalary = 0;
         if (isEmpty()) {
             System.out.println("Список пуст.");
-            return averageSalary;
         }
+        int count = 0;
+        double averageSalary = 0;
         for (Employee employee : book) {
                 if (employee != null && employee.getDepartment() == depNumber) {
                     count++;
@@ -149,10 +147,10 @@ public class EmployeeBook {
     }
 
     public Employee getById(int id) {
-        Employee em = null;
         if (isEmpty()) {
             System.out.println("Список пуст");
         }
+        Employee em = null;
         for (Employee employee : book) {
             if (employee != null && employee.getId() == id) {
                 em =  employee;
