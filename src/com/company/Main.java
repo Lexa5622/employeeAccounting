@@ -18,7 +18,6 @@ public class Main {
         System.out.println(employee);
         System.out.println("---------------------");
         EmployeeBook book = new EmployeeBook(10);
-
         book.addEmployee(employee);
         book.addEmployee(employee1);
         book.addEmployee(employee2);
